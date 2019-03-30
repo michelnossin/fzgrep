@@ -14,7 +14,7 @@ import (
 	"log"
 )
 
-var root_path, query, path string
+var root_path, err, query, path string
 var suggestions []prompt.Suggest
 var wg sync.WaitGroup
 var waiting_for_wg = false
@@ -98,11 +98,11 @@ func completer(d prompt.Document) []prompt.Suggest {
 }
 
 func main() {
-	root_path, err := os.Getwd()
+	current_dir, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	root_path = current_dir
 	fmt.Println("Please enter query pattern:")
 	selected_file_grep := prompt.Input("> ", completer)
 	fmt.Println("You selected " + selected_file_grep)
